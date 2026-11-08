@@ -53,11 +53,10 @@ export default function AdminLogin() {
       const loggedUser = await login(email, password);
 
       if (loggedUser?.role === 'admin') {
-        setSuccess('Welcome back, Vekariya Raj! Opening Admin Dashboard...');
-        setTimeout(() => navigate('/admin'), 600);
+        setSuccess('Welcome, Vekariya Raj! Opening Admin Dashboard...');
+        setTimeout(() => navigate('/admin'), 500);
       } else {
-        setSuccess('Logged in as Client! Redirecting to your Client Portal...');
-        setTimeout(() => navigate('/client'), 1000);
+        setError('Access Denied. Only Admin (Vekariya Raj) is authorized.');
       }
     } catch (err) {
       setError(

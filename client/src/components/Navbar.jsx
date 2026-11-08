@@ -88,54 +88,24 @@ export default function Navbar() {
               <span>{settings.contactNumber || '9723501437'}</span>
             </a>
 
-            {/* Account Portal / Login Buttons */}
-            {isAuthenticated ? (
-              user?.role === 'admin' ? (
-                <div className="flex items-center space-x-2">
-                  <Link
-                    to="/admin"
-                    className="flex items-center space-x-1.5 text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full bg-gold/15 border border-gold/60 text-gold hover:bg-gold hover:text-black transition-all"
-                    title="Dashboard"
-                  >
-                    <Shield className="w-3.5 h-3.5" />
-                    <span>Dashboard</span>
-                  </Link>
-                  <button
-                    onClick={logout}
-                    className="p-1.5 rounded-full text-gray-400 hover:text-red-400 hover:bg-white/10 transition-colors"
-                    title="Sign Out"
-                  >
-                    <LogOut className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              ) : (
-                <div className="flex items-center space-x-2">
-                  <Link
-                    to="/client"
-                    className="flex items-center space-x-1.5 text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-gray-200 hover:border-gold hover:text-gold transition-all"
-                    title="Client Portal"
-                  >
-                    <User className="w-3.5 h-3.5 text-gold" />
-                    <span>{user?.name?.split(' ')[0] || 'Client'}</span>
-                  </Link>
-                  <button
-                    onClick={logout}
-                    className="p-1.5 rounded-full text-gray-400 hover:text-red-400 hover:bg-white/10 transition-colors"
-                    title="Sign Out"
-                  >
-                    <LogOut className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              )
-            ) : (
+            {/* Admin Dashboard Quick Link (only if already logged in) */}
+            {isAuthenticated && user?.role === 'admin' && (
               <div className="flex items-center space-x-2">
                 <Link
-                  to="/login"
-                  className="flex items-center space-x-1.5 text-xs font-semibold px-3.5 py-1.5 rounded-full border border-white/20 text-gray-300 hover:border-gold hover:text-gold transition-all"
+                  to="/admin"
+                  className="flex items-center space-x-1.5 text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full bg-gold/15 border border-gold/60 text-gold hover:bg-gold hover:text-black transition-all"
+                  title="Dashboard"
                 >
-                  <User className="w-3.5 h-3.5" />
-                  <span>Sign In</span>
+                  <Shield className="w-3.5 h-3.5" />
+                  <span>Dashboard</span>
                 </Link>
+                <button
+                  onClick={logout}
+                  className="p-1.5 rounded-full text-gray-400 hover:text-red-400 hover:bg-white/10 transition-colors"
+                  title="Sign Out"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                </button>
               </div>
             )}
 
@@ -183,34 +153,14 @@ export default function Navbar() {
             ))}
 
             <div className="pt-4 flex flex-col space-y-3">
-              {isAuthenticated ? (
-                user?.role === 'admin' ? (
-                  <Link
-                    to="/admin"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-center space-x-2 py-2.5 rounded-lg bg-gold/20 border border-gold text-gold text-sm font-bold uppercase tracking-wider"
-                  >
-                    <Shield className="w-4 h-4" />
-                    <span>Open Dashboard</span>
-                  </Link>
-                ) : (
-                  <Link
-                    to="/client"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-center space-x-2 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white text-sm font-bold uppercase tracking-wider"
-                  >
-                    <User className="w-4 h-4 text-gold" />
-                    <span>Open Client Portal</span>
-                  </Link>
-                )
-              ) : (
+              {isAuthenticated && user?.role === 'admin' && (
                 <Link
-                  to="/login"
+                  to="/admin"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-center space-x-2 py-2.5 rounded-lg border border-white/20 text-gray-200 text-xs font-semibold"
+                  className="flex items-center justify-center space-x-2 py-2.5 rounded-lg bg-gold/20 border border-gold text-gold text-sm font-bold uppercase tracking-wider"
                 >
-                  <User className="w-3.5 h-3.5" />
-                  <span>Sign In / Client Portal</span>
+                  <Shield className="w-4 h-4" />
+                  <span>Open Dashboard</span>
                 </Link>
               )}
 

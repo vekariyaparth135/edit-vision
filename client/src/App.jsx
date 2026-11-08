@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -40,16 +40,12 @@ export default function App() {
         }
       />
 
-      {/* Client Sign In & Register */}
-      <Route path="/login" element={<ClientLogin />} />
-
-      {/* Protected Client Portal (for any registered Client) */}
-      <Route path="/client" element={<ProtectedRoute requiredRole="client" />}>
-        <Route index element={<ClientPortal />} />
-      </Route>
-
-      {/* Admin Login Route (strictly for Vekariya Raj) */}
+      {/* Unified Secure Login Route */}
+      <Route path="/login" element={<AdminLogin />} />
       <Route path="/admin/login" element={<AdminLogin />} />
+
+      {/* Redirect /client to home */}
+      <Route path="/client" element={<Navigate to="/" replace />} />
 
       {/* Protected Admin CMS Routes (strictly Vekariya Raj, role === 'admin') */}
       <Route path="/admin" element={<ProtectedRoute requiredRole="admin" />}>

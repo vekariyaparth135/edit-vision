@@ -41,23 +41,13 @@ export default function ProtectedRoute({ requiredRole = 'admin' }) {
           </h2>
 
           <p className="text-gray-400 text-xs leading-relaxed mb-6">
-            You are logged in as a Client (<span className="text-white font-medium">{user?.email}</span>). 
-            Clients do not have permission to open the Admin CMS. Please use your Client Portal instead.
+            You do not have permission to open the Admin CMS.
           </p>
 
           <div className="flex flex-col space-y-3">
             <Link
-              to="/client"
-              className="w-full py-3 px-4 rounded-xl bg-gold text-black font-bold text-xs uppercase tracking-wider hover:bg-gold-light transition-all flex items-center justify-center space-x-2 shadow-gold-sm"
-            >
-              <User className="w-4 h-4" />
-              <span>Go to Client Portal</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-
-            <Link
               to="/"
-              className="w-full py-2.5 px-4 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 text-xs font-semibold tracking-wider transition-all flex items-center justify-center space-x-2"
+              className="w-full py-3 px-4 rounded-xl bg-gold text-black font-bold text-xs uppercase tracking-wider hover:bg-gold-light transition-all flex items-center justify-center space-x-2 shadow-gold-sm"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Return to Portfolio</span>
@@ -68,7 +58,7 @@ export default function ProtectedRoute({ requiredRole = 'admin' }) {
               className="text-xs text-gray-500 hover:text-red-400 transition-colors flex items-center justify-center space-x-1.5 pt-2"
             >
               <LogOut className="w-3.5 h-3.5" />
-              <span>Sign out and switch account</span>
+              <span>Sign out</span>
             </button>
           </div>
         </div>
