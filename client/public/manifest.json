@@ -1,0 +1,19 @@
+{
+  "short_name": "Edit Vision",
+  "name": "Edit Vision | Vekariya Raj - Video Editor & Colorist",
+  "description": "Where Every Frame Tells a Story. Portfolio and client management hub for freelance video editor Vekariya Raj.",
+  "icons": [
+    {
+      "src": "/Logo.png",
+      "type": "image/png",
+      "sizes": "192x192 512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#0A0A0A",
+  "theme_color": "#0A0A0A",
+  "display": "standalone",
+  "orientation": "portrait"
+}
+
