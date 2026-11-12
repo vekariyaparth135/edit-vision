@@ -9,12 +9,13 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 
-import ClientLogin from './pages/client/ClientLogin';
-import ClientPortal from './pages/client/ClientPortal';
+import UserLogin from './pages/user/UserLogin';
+import UserDashboard from './pages/user/UserDashboard';
 
 import AdminLayout from './pages/admin/AdminLayout';
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminDashboard from './pages/admin/AdminDashboard';
+import UsersManager from './pages/admin/UsersManager';
 import MediaManager from './pages/admin/MediaManager';
 import ServicesManager from './pages/admin/ServicesManager';
 import TestimonialsManager from './pages/admin/TestimonialsManager';
@@ -25,7 +26,7 @@ import PasswordChange from './pages/admin/PasswordChange';
 export default function App() {
   return (
     <Routes>
-      {/* Public Client Site */}
+      {/* Public Portfolio Site */}
       <Route
         path="/"
         element={
@@ -40,17 +41,25 @@ export default function App() {
         }
       />
 
-      {/* Unified Secure Login Route */}
-      <Route path="/login" element={<AdminLogin />} />
+      {/* User Panel Login & Registration */}
+      <Route path="/login" element={<UserLogin />} />
+      <Route path="/user/login" element={<UserLogin />} />
+
+      {/* Admin Panel Login */}
       <Route path="/admin/login" element={<AdminLogin />} />
 
-      {/* Redirect /client to home */}
-      <Route path="/client" element={<Navigate to="/" replace />} />
+      {/* Protected User Panel (for regular users to view/manage their own data) */}
+      <Route path="/user" element={<ProtectedRoute requiredRole="user" />}>
+        <Route index element={<UserDashboard />} />
+        <Route path="dashboard" element={<UserDashboard />} />
+      </Route>
+      <Route path="/client" element={<Navigate to="/user" replace />} />
 
-      {/* Protected Admin CMS Routes (strictly Vekariya Raj, role === 'admin') */}
+      {/* Protected Admin CMS Panel (strictly role === 'admin' for full system control) */}
       <Route path="/admin" element={<ProtectedRoute requiredRole="admin" />}>
         <Route element={<AdminLayout />}>
           <Route index element={<AdminDashboard />} />
+          <Route path="users" element={<UsersManager />} />
           <Route path="media" element={<MediaManager />} />
           <Route path="services" element={<ServicesManager />} />
           <Route path="testimonials" element={<TestimonialsManager />} />

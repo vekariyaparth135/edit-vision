@@ -41,13 +41,21 @@ export default function ProtectedRoute({ requiredRole = 'admin' }) {
           </h2>
 
           <p className="text-gray-400 text-xs leading-relaxed mb-6">
-            You do not have permission to open the Admin CMS.
+            You are logged in as a regular user ({user?.email}). The Admin Panel is strictly reserved for Vekariya Raj.
           </p>
 
           <div className="flex flex-col space-y-3">
             <Link
-              to="/"
+              to="/user"
               className="w-full py-3 px-4 rounded-xl bg-gold text-black font-bold text-xs uppercase tracking-wider hover:bg-gold-light transition-all flex items-center justify-center space-x-2 shadow-gold-sm"
+            >
+              <User className="w-4 h-4" />
+              <span>Go to My User Panel</span>
+            </Link>
+
+            <Link
+              to="/"
+              className="w-full py-2.5 px-4 rounded-xl border border-white/10 text-white font-medium text-xs uppercase tracking-wider hover:bg-white/5 transition-all flex items-center justify-center space-x-2"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Return to Portfolio</span>

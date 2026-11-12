@@ -235,10 +235,14 @@ export default function AdminLogin() {
           </div>
         </form>
 
-        {/* Return to live website */}
-        <div className="mt-8 pt-6 border-t border-white/10 text-center">
-          <Link to="/" className="text-xs text-gray-400 hover:text-white transition-colors">
-            &larr; Return to Portfolio Site
+        {/* Footer links */}
+        <div className="mt-8 pt-6 border-t border-white/10 flex items-center justify-between text-xs text-gray-400">
+          <Link to="/" className="hover:text-white transition-colors">
+            &larr; Return to Portfolio
+          </Link>
+          <Link to="/login" className="text-gold hover:text-gold-light transition-colors flex items-center space-x-1">
+            <User className="w-3.5 h-3.5" />
+            <span>User Portal &rarr;</span>
           </Link>
         </div>
       </div>

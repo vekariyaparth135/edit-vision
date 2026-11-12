@@ -3,11 +3,19 @@ import { authApi } from '../services/api';
 
 const AuthContext = createContext();
 
+const normalizeUser = (u) => {
+  if (!u) return null;
+  return {
+    ...u,
+    role: u.role === 'client' ? 'user' : u.role,
+  };
+};
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     try {
       const savedUser = localStorage.getItem('user');
-      return savedUser ? JSON.parse(savedUser) : null;
+      return savedUser ? normalizeUser(JSON.parse(savedUser)) : null;
     } catch (e) {
       return null;
     }
@@ -21,8 +29,9 @@ export const AuthProvider = ({ children }) => {
       if (token) {
         try {
           const res = await authApi.getMe();
-          setUser(res.data.user);
-          localStorage.setItem('user', JSON.stringify(res.data.user));
+          const cleanUser = normalizeUser(res.data.user);
+          setUser(cleanUser);
+          localStorage.setItem('user', JSON.stringify(cleanUser));
         } catch (error) {
           console.error('Session expired or invalid', error);
           logout();
@@ -37,23 +46,27 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     const res = await authApi.login({ email, password });
     if (res.data.success) {
-      setUser(res.data.user);
+      const cleanUser = normalizeUser(res.data.user);
+      setUser(cleanUser);
       setToken(res.data.token);
       localStorage.setItem('token', res.data.token);
-      localStorage.setItem('user', JSON.stringify(res.data.user));
+      localStorage.setItem('user', JSON.stringify(cleanUser));
+      return cleanUser;
     }
-    return res.data.user;
+    return null;
   };
 
   const register = async (name, email, password) => {
     const res = await authApi.register({ name, email, password });
     if (res.data.success) {
-      setUser(res.data.user);
+      const cleanUser = normalizeUser(res.data.user);
+      setUser(cleanUser);
       setToken(res.data.token);
       localStorage.setItem('token', res.data.token);
-      localStorage.setItem('user', JSON.stringify(res.data.user));
+      localStorage.setItem('user', JSON.stringify(cleanUser));
+      return cleanUser;
     }
-    return res.data.user;
+    return null;
   };
 
   const logout = async () => {

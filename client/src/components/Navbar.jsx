@@ -88,16 +88,16 @@ export default function Navbar() {
               <span>{settings.contactNumber || '9723501437'}</span>
             </a>
 
-            {/* Admin Dashboard Quick Link (only if already logged in) */}
-            {isAuthenticated && user?.role === 'admin' && (
+            {/* Authenticated User or Admin Shortcut */}
+            {isAuthenticated ? (
               <div className="flex items-center space-x-2">
                 <Link
-                  to="/admin"
+                  to={user?.role === 'admin' ? '/admin' : '/user'}
                   className="flex items-center space-x-1.5 text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full bg-gold/15 border border-gold/60 text-gold hover:bg-gold hover:text-black transition-all"
-                  title="Dashboard"
+                  title={user?.role === 'admin' ? 'Admin Dashboard' : 'User Panel'}
                 >
-                  <Shield className="w-3.5 h-3.5" />
-                  <span>Dashboard</span>
+                  {user?.role === 'admin' ? <Shield className="w-3.5 h-3.5" /> : <User className="w-3.5 h-3.5" />}
+                  <span>{user?.role === 'admin' ? 'Dashboard' : 'My Panel'}</span>
                 </Link>
                 <button
                   onClick={logout}
@@ -107,6 +107,15 @@ export default function Navbar() {
                   <LogOut className="w-3.5 h-3.5" />
                 </button>
               </div>
+            ) : (
+              <Link
+                to="/login"
+                className="hidden md:flex items-center space-x-1 text-xs text-gray-400 hover:text-gold transition-colors px-2 py-1"
+                title="Client / User Login"
+              >
+                <User className="w-3.5 h-3.5" />
+                <span>Sign In</span>
+              </Link>
             )}
 
             {/* WhatsApp CTA */}
@@ -153,14 +162,35 @@ export default function Navbar() {
             ))}
 
             <div className="pt-4 flex flex-col space-y-3">
-              {isAuthenticated && user?.role === 'admin' && (
+              {isAuthenticated ? (
+                <div className="flex flex-col space-y-2">
+                  <Link
+                    to={user?.role === 'admin' ? '/admin' : '/user'}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center justify-center space-x-2 py-2.5 rounded-lg bg-gold/20 border border-gold text-gold text-sm font-bold uppercase tracking-wider"
+                  >
+                    {user?.role === 'admin' ? <Shield className="w-4 h-4" /> : <User className="w-4 h-4" />}
+                    <span>{user?.role === 'admin' ? 'Open Admin Dashboard' : 'Open My User Panel'}</span>
+                  </Link>
+                  <button
+                    onClick={() => {
+                      logout();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="flex items-center justify-center space-x-1.5 py-2 text-xs text-red-400 hover:text-red-300"
+                  >
+                    <LogOut className="w-3.5 h-3.5" />
+                    <span>Sign Out ({user?.name})</span>
+                  </button>
+                </div>
+              ) : (
                 <Link
-                  to="/admin"
+                  to="/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-center space-x-2 py-2.5 rounded-lg bg-gold/20 border border-gold text-gold text-sm font-bold uppercase tracking-wider"
+                  className="flex items-center justify-center space-x-2 py-2.5 rounded-lg border border-white/20 text-gray-300 text-sm font-medium"
                 >
-                  <Shield className="w-4 h-4" />
-                  <span>Open Dashboard</span>
+                  <User className="w-4 h-4" />
+                  <span>User Portal Sign In</span>
                 </Link>
               )}
 

@@ -38,6 +38,7 @@ export const protect = async (req, res, next) => {
     }
 
     req.user = user;
+    req.tokenRole = decoded.role || user.role;
     next();
   } catch (error) {
     return res.status(401).json({
@@ -53,10 +54,23 @@ export const adminOnly = (req, res, next) => {
   if (!req.user || req.user.role !== 'admin') {
     return res.status(403).json({
       success: false,
-      message: 'Access Denied: Only Admin (Raj Vekariya) is authorized to access this resource. Clients cannot open the admin panel.',
+      message: 'Access Denied: Only Admin (Raj Vekariya) is authorized to access this resource. Users cannot access admin routes.',
     });
   }
   next();
+};
+
+// Role-based authorization helper
+export const authorize = (...roles) => {
+  return (req, res, next) => {
+    if (!req.user || !roles.includes(req.user.role)) {
+      return res.status(403).json({
+        success: false,
+        message: `Forbidden: Role '${req.user?.role}' is not authorized to access this route.`,
+      });
+    }
+    next();
+  };
 };
 
 

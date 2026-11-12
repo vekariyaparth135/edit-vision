@@ -2,16 +2,16 @@ import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 import ActivityLog from '../models/ActivityLog.js';
 
-const generateToken = (id) => {
+const generateToken = (id, role) => {
   return jwt.sign(
-    { id },
+    { id, role },
     process.env.JWT_SECRET || 'edit_vision_super_secret_jwt_key_2026_raj_vekariya',
     { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
   );
 };
 
 const sendTokenResponse = (user, statusCode, res) => {
-  const token = generateToken(user._id);
+  const token = generateToken(user._id, user.role);
 
   const cookieOptions = {
     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
@@ -75,8 +75,8 @@ export const register = async (req, res) => {
     ];
     const normalizedEmail = email.toLowerCase().trim();
     const isRajAdmin = ADMIN_EMAILS.includes(normalizedEmail);
-    const assignedRole = isRajAdmin ? 'admin' : 'client';
-    const assignedName = name || (isRajAdmin ? 'Vekariya Raj' : 'Client User');
+    const assignedRole = isRajAdmin ? 'admin' : 'user';
+    const assignedName = name || (isRajAdmin ? 'Vekariya Raj' : 'User');
 
     const user = await User.create({
       name: assignedName,
@@ -86,8 +86,8 @@ export const register = async (req, res) => {
     });
 
     await ActivityLog.create({
-      action: isRajAdmin ? 'Admin Account Registered' : 'New Client Registered',
-      details: `${isRajAdmin ? 'Admin' : 'Client'} account created for ${email}`,
+      action: isRajAdmin ? 'Admin Account Registered' : 'New User Registered',
+      details: `${isRajAdmin ? 'Admin' : 'User'} account created for ${email}`,
       user: user.name,
       status: 'success',
       ip: req.ip || req.socket.remoteAddress || '',
@@ -137,15 +137,15 @@ export const resetCredentials = async (req, res) => {
       await user.save();
     } else {
       user = await User.create({
-        name: name || (isRajAdmin ? 'Vekariya Raj' : 'Client User'),
+        name: name || (isRajAdmin ? 'Vekariya Raj' : 'User'),
         email: normalizedEmail,
         password,
-        role: isRajAdmin ? 'admin' : 'client',
+        role: isRajAdmin ? 'admin' : 'user',
       });
     }
 
     await ActivityLog.create({
-      action: isRajAdmin ? 'Admin Credentials Configured' : 'Client Password Updated',
+      action: isRajAdmin ? 'Admin Credentials Configured' : 'User Password Updated',
       details: `Password configured for ${email} (${user.role})`,
       user: user.name,
       status: 'success',

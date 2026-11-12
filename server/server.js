@@ -17,6 +17,8 @@ import testimonialRoutes from './routes/testimonialRoutes.js';
 import messageRoutes from './routes/messageRoutes.js';
 import settingsRoutes from './routes/settingsRoutes.js';
 import statsRoutes from './routes/statsRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
 
 // Load environment variables
 dotenv.config();
@@ -84,6 +86,8 @@ app.get('/api/health', (req, res) => {
 
 // API Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/api/media', mediaRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/testimonials', testimonialRoutes);

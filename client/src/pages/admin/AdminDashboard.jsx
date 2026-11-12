@@ -120,10 +120,17 @@ export default function AdminDashboard() {
 
         <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
           <Link
-            to="/admin/settings"
+            to="/admin/users"
             className="flex items-center space-x-2 px-4 py-2.5 rounded-xl border border-gold/40 text-gold hover:bg-gold/10 text-xs font-semibold transition-colors"
           >
-            <User className="w-4 h-4" />
+            <Users className="w-4 h-4" />
+            <span>Manage Users</span>
+          </Link>
+          <Link
+            to="/admin/settings"
+            className="flex items-center space-x-2 px-4 py-2.5 rounded-xl border border-white/10 text-gray-300 hover:border-gold/40 hover:text-white text-xs font-semibold transition-colors"
+          >
+            <User className="w-4 h-4 text-gold" />
             <span>Change Photo</span>
           </Link>
           <Link

@@ -28,6 +28,7 @@ export default function AdminLayout() {
 
   const navItems = [
     { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
+    { name: 'User Management', path: '/admin/users', icon: User },
     { name: 'Media Manager', path: '/admin/media', icon: Film },
     { name: 'Services', path: '/admin/services', icon: Briefcase },
     { name: 'Testimonials', path: '/admin/testimonials', icon: Star },

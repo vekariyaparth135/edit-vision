@@ -89,6 +89,26 @@ export const settingsApi = {
   update: (formData) => api.put('/settings', formData),
 };
 
+// User Panel APIs (for regular users to view/manage their own data)
+export const userApi = {
+  getProfile: () => api.get('/user/profile'),
+  updateProfile: (formData) => api.put('/user/profile', formData),
+  updatePassword: (data) => api.put('/user/password', data),
+  getInquiries: () => api.get('/user/inquiries'),
+  createInquiry: (data) => api.post('/user/inquiries', data),
+  deleteInquiry: (id) => api.delete(`/user/inquiries/${id}`),
+};
+
+// Admin Panel APIs (for admins to manage users, view all data, full control)
+export const adminApi = {
+  getOverview: () => api.get('/admin/overview'),
+  getUsers: (params) => api.get('/admin/users', { params }),
+  getUserById: (id) => api.get(`/admin/users/${id}`),
+  createUser: (data) => api.post('/admin/users', data),
+  updateUserRole: (id, role) => api.put(`/admin/users/${id}/role`, { role }),
+  deleteUser: (id) => api.delete(`/admin/users/${id}`),
+};
+
 // Stats APIs
 export const statsApi = {
   logVisit: (path) => api.post('/stats/visit', { path }),
