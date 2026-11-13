@@ -80,7 +80,10 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(cookieParser());
 
 // Serve static uploaded files
-app.use('/uploads', express.static(path.resolve('uploads')));
+app.use(
+  '/uploads',
+  express.static(path.resolve(process.env.VERCEL ? '/tmp/uploads' : 'uploads'))
+);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -119,4 +122,3 @@ if (!process.env.VERCEL) {
 }
 
 export default app;
-
