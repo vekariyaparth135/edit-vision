@@ -24,3 +24,4 @@ router.post('/inquiries', createUserInquiry);
 router.delete('/inquiries/:id', deleteUserInquiry);
 
 export default router;
+

@@ -327,9 +327,8 @@ export default function AdminDashboard() {
 
                 <div className="flex items-center space-x-2 text-xs">
                   <span
-                    className={`px-2 py-0.5 rounded text-[10px] font-semibold ${
-                      media.published ? 'bg-gold/15 text-gold border border-gold/30' : 'bg-gray-800 text-gray-400'
-                    }`}
+                    className={`px-2 py-0.5 rounded text-[10px] font-semibold ${media.published ? 'bg-gold/15 text-gold border border-gold/30' : 'bg-gray-800 text-gray-400'
+                      }`}
                   >
                     {media.published ? 'Published' : 'Draft'}
                   </span>

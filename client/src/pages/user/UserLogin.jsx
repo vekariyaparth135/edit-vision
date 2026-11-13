@@ -188,9 +188,8 @@ export default function UserLogin() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder={mode === 'register' ? 'At least 6 characters' : 'Enter your password'}
-                autoComplete={mode === 'register' ? 'new-password' : 'current-password'}
-                className="w-full bg-black/50 border border-white/10 rounded-xl py-2.5 pl-10 pr-10 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-gold transition-colors"
+                autoComplete="new-password"
+                className="w-full bg-black/50 border border-white/10 rounded-xl py-2.5 pl-10 pr-10 text-xs text-white focus:outline-none focus:border-gold transition-colors"
               />
               <Lock className="w-4 h-4 text-gold absolute left-3.5 top-1/2 -translate-y-1/2" />
               <button
@@ -214,9 +213,8 @@ export default function UserLogin() {
                   required
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="Re-type your password"
                   autoComplete="new-password"
-                  className="w-full bg-black/50 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-gold transition-colors"
+                  className="w-full bg-black/50 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white focus:outline-none focus:border-gold transition-colors"
                 />
                 <Lock className="w-4 h-4 text-gold absolute left-3.5 top-1/2 -translate-y-1/2" />
               </div>
@@ -251,3 +249,4 @@ export default function UserLogin() {
     </div>
   );
 }
+

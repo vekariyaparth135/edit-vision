@@ -186,9 +186,9 @@ export default function ClientLogin() {
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
                 required
-                className="w-full bg-black/60 border border-white/10 rounded-xl pl-10 pr-10 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-gold transition-colors"
+                autoComplete="new-password"
+                className="w-full bg-black/60 border border-white/10 rounded-xl pl-10 pr-10 py-3 text-sm text-white focus:outline-none focus:border-gold transition-colors"
               />
               <button
                 type="button"
@@ -211,9 +211,9 @@ export default function ClientLogin() {
                   type={showPassword ? 'text' : 'password'}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="Repeat your password"
                   required
-                  className="w-full bg-black/60 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-gold transition-colors"
+                  autoComplete="new-password"
+                  className="w-full bg-black/60 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-gold transition-colors"
                 />
               </div>
             </div>

@@ -456,8 +456,8 @@ export default function UsersManager() {
                   minLength={6}
                   value={newUserData.password}
                   onChange={(e) => setNewUserData({ ...newUserData, password: e.target.value })}
-                  placeholder="Minimum 6 characters"
-                  className="w-full bg-black/60 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-gold"
+                  autoComplete="new-password"
+                  className="w-full bg-black/60 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-gold"
                 />
               </div>
 
@@ -517,3 +517,4 @@ export default function UsersManager() {
     </div>
   );
 }
+

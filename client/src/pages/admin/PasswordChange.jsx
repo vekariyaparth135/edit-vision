@@ -19,7 +19,7 @@ export default function PasswordChange() {
 
   // Profile fields
   const [name, setName] = useState(user?.name || 'Vekariya Raj');
-  const [email, setEmail] = useState(user?.email || 'admin@editvision.com');
+  const [email, setEmail] = useState(user?.email || '');
   const [profileLoading, setProfileLoading] = useState(false);
   const [profileMsg, setProfileMsg] = useState({ type: '', text: '' });
 
@@ -145,9 +145,9 @@ export default function PasswordChange() {
                 <input
                   type={showPassword ? 'text' : 'password'}
                   required
-                  placeholder="Enter new strong password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
+                  autoComplete="new-password"
                   className="w-full pl-10 pr-11 py-3 rounded-xl bg-black/60 border border-white/10 text-white focus:border-gold outline-none"
                 />
                 <Lock className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -169,9 +169,9 @@ export default function PasswordChange() {
                 <input
                   type={showPassword ? 'text' : 'password'}
                   required
-                  placeholder="Re-enter new password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
+                  autoComplete="new-password"
                   className="w-full pl-10 pr-11 py-3 rounded-xl bg-black/60 border border-white/10 text-white focus:border-gold outline-none"
                 />
                 <KeyRound className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />

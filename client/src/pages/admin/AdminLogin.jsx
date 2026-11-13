@@ -207,9 +207,9 @@ export default function AdminLogin() {
               <input
                 type={showPassword ? 'text' : 'password'}
                 required
-                placeholder="Enter password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                autoComplete="new-password"
                 className="w-full pl-11 pr-11 py-3 rounded-xl bg-black/60 border border-white/10 focus:border-gold outline-none text-white text-sm"
               />
               <Lock className="w-4 h-4 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2" />
@@ -310,9 +310,9 @@ export default function AdminLogin() {
                 <input
                   type="password"
                   required
-                  placeholder="Min 6 characters"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
+                  autoComplete="new-password"
                   className="w-full px-3 py-2.5 rounded-xl bg-black/60 border border-white/10 text-white outline-none focus:border-gold"
                 />
               </div>
@@ -324,9 +324,9 @@ export default function AdminLogin() {
                 <input
                   type="password"
                   required
-                  placeholder="Repeat new password"
                   value={confirmNewPassword}
                   onChange={(e) => setConfirmNewPassword(e.target.value)}
+                  autoComplete="new-password"
                   className="w-full px-3 py-2.5 rounded-xl bg-black/60 border border-white/10 text-white outline-none focus:border-gold"
                 />
               </div>

@@ -410,8 +410,8 @@ export default function ClientPortal() {
                   type="password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  placeholder="Minimum 6 characters"
                   required
+                  autoComplete="new-password"
                   className="w-full bg-black/60 border border-white/10 focus:border-gold rounded-xl px-4 py-2.5 text-xs text-white outline-none"
                 />
               </div>
@@ -424,8 +424,8 @@ export default function ClientPortal() {
                   type="password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="Repeat new password"
                   required
+                  autoComplete="new-password"
                   className="w-full bg-black/60 border border-white/10 focus:border-gold rounded-xl px-4 py-2.5 text-xs text-white outline-none"
                 />
               </div>
