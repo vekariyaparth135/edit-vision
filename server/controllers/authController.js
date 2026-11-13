@@ -2,6 +2,13 @@ import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 import ActivityLog from '../models/ActivityLog.js';
 
+const ADMIN_EMAILS = [
+  'admin12@gmail.com',
+  'mahirgohil9@gmail.com',
+  'admin@editvision.com',
+  'raj@editvision.com',
+];
+
 const generateToken = (id, role) => {
   return jwt.sign(
     { id, role },
@@ -67,12 +74,6 @@ export const register = async (req, res) => {
     }
 
     // Only Raj Vekariya designated emails can be admin
-    const ADMIN_EMAILS = [
-      'admin12@gmail.com',
-      'mahirgohil9@gmail.com',
-      'admin@editvision.com',
-      'raj@editvision.com',
-    ];
     const normalizedEmail = email.toLowerCase().trim();
     const isRajAdmin = ADMIN_EMAILS.includes(normalizedEmail);
     const assignedRole = isRajAdmin ? 'admin' : 'user';
@@ -120,12 +121,6 @@ export const resetCredentials = async (req, res) => {
       });
     }
 
-    const ADMIN_EMAILS = [
-      'admin12@gmail.com',
-      'mahirgohil9@gmail.com',
-      'admin@editvision.com',
-      'raj@editvision.com',
-    ];
     const normalizedEmail = email.toLowerCase().trim();
     const isRajAdmin = ADMIN_EMAILS.includes(normalizedEmail);
 
@@ -172,13 +167,14 @@ export const login = async (req, res) => {
       });
     }
 
-    const user = await User.findOne({ email }).select('+password');
+    const normalizedEmail = email.toLowerCase().trim();
+    const user = await User.findOne({ email: normalizedEmail }).select('+password');
     if (!user) {
       // Log failed attempt
       await ActivityLog.create({
         action: 'Failed Login Attempt',
-        details: `Unknown email attempted: ${email}`,
-        user: email,
+        details: `Unknown email attempted: ${normalizedEmail}`,
+        user: normalizedEmail,
         status: 'warning',
         ip: req.ip || req.socket.remoteAddress || '',
       }).catch(() => { });
@@ -387,15 +383,20 @@ export const logout = async (req, res) => {
 // Auto-seed default admin if database is newly initialized
 export const ensureDefaultAdmin = async () => {
   try {
-    const admin = await User.findOne({ email: 'admin12@gmail.com' });
+    const adminEmail = (process.env.ADMIN_EMAIL || 'admin12@gmail.com').toLowerCase().trim();
+    const adminPassword =
+      process.env.ADMIN_PASSWORD ||
+      process.env.ADMIN_DEFAULT_PASSWORD ||
+      'Admin@123456';
+    const admin = await User.findOne({ email: adminEmail });
     if (!admin) {
       await User.create({
-        name: 'Vekariya Raj',
-        email: 'admin12@gmail.com',
-        password: process.env.ADMIN_DEFAULT_PASSWORD || 'admin123',
+        name: process.env.ADMIN_NAME || 'Vekariya Raj',
+        email: adminEmail,
+        password: adminPassword,
         role: 'admin',
       });
-      console.log('[System]: Default Admin (admin12@gmail.com) verified/created.');
+      console.log(`[System]: Default Admin (${adminEmail}) verified/created.`);
     }
   } catch (err) {
     // Ignore in dev/read-only mode
