@@ -383,3 +383,21 @@ export const logout = async (req, res) => {
     message: 'Logged out successfully',
   });
 };
+
+// Auto-seed default admin if database is newly initialized
+export const ensureDefaultAdmin = async () => {
+  try {
+    const admin = await User.findOne({ email: 'admin12@gmail.com' });
+    if (!admin) {
+      await User.create({
+        name: 'Vekariya Raj',
+        email: 'admin12@gmail.com',
+        password: process.env.ADMIN_DEFAULT_PASSWORD || 'admin123',
+        role: 'admin',
+      });
+      console.log('[System]: Default Admin (admin12@gmail.com) verified/created.');
+    }
+  } catch (err) {
+    // Ignore in dev/read-only mode
+  }
+};

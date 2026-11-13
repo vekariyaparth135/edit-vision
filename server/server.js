@@ -19,19 +19,26 @@ import settingsRoutes from './routes/settingsRoutes.js';
 import statsRoutes from './routes/statsRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import { ensureDefaultAdmin } from './controllers/authController.js';
 
 // Load environment variables
 dotenv.config();
 
-// Connect to MongoDB
-connectDB();
+// Connect to MongoDB & ensure default admin
+connectDB().then(() => {
+  ensureDefaultAdmin();
+});
 
 const app = express();
 
-// Ensure local uploads directory exists
-const uploadDir = path.resolve('uploads');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
+// Ensure local uploads directory exists (uses /tmp on Vercel)
+try {
+  const uploadDir = path.resolve(process.env.VERCEL ? '/tmp/uploads' : 'uploads');
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+} catch (e) {
+  // Ignored in read-only serverless environments
 }
 
 // Security headers with resource sharing for media previews
@@ -101,11 +108,15 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`===============================================`);
-  console.log(`🎬 Edit Vision Backend API Running on Port ${PORT}`);
-  console.log(`✨ Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🔗 Health Check: http://localhost:${PORT}/api/health`);
-  console.log(`===============================================`);
-});
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`===============================================`);
+    console.log(`🎬 Edit Vision Backend API Running on Port ${PORT}`);
+    console.log(`✨ Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`🔗 Health Check: http://localhost:${PORT}/api/health`);
+    console.log(`===============================================`);
+  });
+}
+
+export default app;
 
