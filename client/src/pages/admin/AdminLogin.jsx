@@ -7,7 +7,6 @@ import {
   Eye,
   EyeOff,
   User,
-  Shield,
   KeyRound,
   CheckCircle,
   AlertCircle,
@@ -132,17 +131,9 @@ export default function AdminLogin() {
             </div>
           </Link>
 
-          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-gold/10 border border-gold/30 text-[11px] font-bold uppercase tracking-wider text-gold mb-2">
-            <Shield className="w-3.5 h-3.5 text-gold" />
-            <span>Vekariya Raj &bull; Admin Only</span>
-          </div>
-
           <h2 className="font-serif text-3xl font-bold tracking-wider text-white">
             EDIT <span className="text-gold-gradient">VISION</span>
           </h2>
-          <p className="text-xs uppercase tracking-widest text-gray-400 font-medium mt-1">
-            Sole Administrator CMS Portal
-          </p>
         </div>
 
         {/* Error / Success Notifications */}
