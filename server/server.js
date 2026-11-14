@@ -6,6 +6,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import path from 'path';
 import fs from 'fs';
+import { fileURLToPath } from 'url';
 
 import connectDB from './config/db.js';
 import { notFound, errorHandler } from './middleware/errorHandler.js';
@@ -22,12 +23,8 @@ import adminRoutes from './routes/adminRoutes.js';
 import { ensureDefaultAdmin } from './controllers/authController.js';
 
 // Load environment variables
-dotenv.config();
-
-// Connect to MongoDB & ensure default admin
-connectDB().then(() => {
-  ensureDefaultAdmin();
-});
+const serverDirectory = path.dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: path.join(serverDirectory, '.env') });
 
 const app = express();
 
@@ -111,14 +108,26 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-if (!process.env.VERCEL) {
-  app.listen(PORT, () => {
-    console.log(`===============================================`);
-    console.log(`🎬 Edit Vision Backend API Running on Port ${PORT}`);
-    console.log(`✨ Environment: ${process.env.NODE_ENV || 'development'}`);
-    console.log(`🔗 Health Check: http://localhost:${PORT}/api/health`);
-    console.log(`===============================================`);
-  });
-}
+const startServer = async () => {
+  await connectDB();
+  await ensureDefaultAdmin();
+
+  if (!process.env.VERCEL) {
+    app.listen(PORT, () => {
+      console.log(`===============================================`);
+      console.log(`🎬 Edit Vision Backend API Running on Port ${PORT}`);
+      console.log(`✨ Environment: ${process.env.NODE_ENV || 'development'}`);
+      console.log(`🔗 Health Check: http://localhost:${PORT}/api/health`);
+      console.log(`===============================================`);
+    });
+  }
+};
+
+startServer().catch((error) => {
+  console.error('[Server Startup Error]: MongoDB is required before starting the API.', error.message);
+  if (!process.env.VERCEL) {
+    process.exitCode = 1;
+  }
+});
 
 export default app;

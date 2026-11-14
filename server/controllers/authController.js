@@ -3,10 +3,7 @@ import User from '../models/User.js';
 import ActivityLog from '../models/ActivityLog.js';
 
 const ADMIN_EMAILS = [
-  'admin12@gmail.com',
-  'mahirgohil9@gmail.com',
-  'admin@editvision.com',
-  'raj@editvision.com',
+  (process.env.ADMIN_EMAIL || 'admin@editvision.com').toLowerCase().trim(),
 ];
 
 const generateToken = (id, role) => {
@@ -124,6 +121,13 @@ export const resetCredentials = async (req, res) => {
     const normalizedEmail = email.toLowerCase().trim();
     const isRajAdmin = ADMIN_EMAILS.includes(normalizedEmail);
 
+    if (!isRajAdmin) {
+      return res.status(403).json({
+        success: false,
+        message: 'Only the configured admin email can set admin credentials',
+      });
+    }
+
     let user = await User.findOne({ email: normalizedEmail });
 
     if (user) {
@@ -168,6 +172,13 @@ export const login = async (req, res) => {
     }
 
     const normalizedEmail = email.toLowerCase().trim();
+    if (!ADMIN_EMAILS.includes(normalizedEmail)) {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid email or password',
+      });
+    }
+
     const user = await User.findOne({ email: normalizedEmail }).select('+password');
     if (!user) {
       // Log failed attempt
@@ -198,6 +209,13 @@ export const login = async (req, res) => {
       return res.status(401).json({
         success: false,
         message: 'Invalid email or password',
+      });
+    }
+
+    if (user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'This account is not authorized for the admin portal',
       });
     }
 
@@ -383,7 +401,7 @@ export const logout = async (req, res) => {
 // Auto-seed default admin if database is newly initialized
 export const ensureDefaultAdmin = async () => {
   try {
-    const adminEmail = (process.env.ADMIN_EMAIL || 'admin12@gmail.com').toLowerCase().trim();
+    const adminEmail = (process.env.ADMIN_EMAIL || 'admin@editvision.com').toLowerCase().trim();
     const adminPassword =
       process.env.ADMIN_PASSWORD ||
       process.env.ADMIN_DEFAULT_PASSWORD ||
