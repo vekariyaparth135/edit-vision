@@ -8,6 +8,10 @@ export default async function handler(req, res) {
     await ensureDefaultAdmin();
   } catch (error) {
     console.error('Serverless DB init error:', error);
+    return res.status(503).json({
+      success: false,
+      message: 'Database is unavailable. Check the server MongoDB configuration.',
+    });
   }
   return app(req, res);
 }
