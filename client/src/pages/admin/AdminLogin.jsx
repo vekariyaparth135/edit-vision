@@ -49,7 +49,7 @@ export default function AdminLogin() {
     setLoading(true);
 
     try {
-      const loggedUser = await login(email, password);
+      const loggedUser = await login(email, password, { portal: 'admin' });
 
       if (loggedUser?.role === 'admin') {
         setSuccess('Welcome, Vekariya Raj! Opening Admin Dashboard...');

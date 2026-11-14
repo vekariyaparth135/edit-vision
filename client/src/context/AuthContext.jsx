@@ -43,8 +43,8 @@ export const AuthProvider = ({ children }) => {
     checkAuth();
   }, [token]);
 
-  const login = async (email, password) => {
-    const res = await authApi.login({ email, password });
+  const login = async (email, password, options = {}) => {
+    const res = await authApi.login({ email, password, ...options });
     if (res.data.success) {
       const cleanUser = normalizeUser(res.data.user);
       setUser(cleanUser);
@@ -87,4 +87,3 @@ export const AuthProvider = ({ children }) => {
 };
 
 export const useAuth = () => useContext(AuthContext);
-

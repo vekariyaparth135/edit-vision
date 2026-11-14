@@ -162,7 +162,7 @@ export const resetCredentials = async (req, res) => {
 // @access  Public
 export const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, portal } = req.body;
 
     if (!email || !password) {
       return res.status(400).json({
@@ -172,7 +172,7 @@ export const login = async (req, res) => {
     }
 
     const normalizedEmail = email.toLowerCase().trim();
-    if (!ADMIN_EMAILS.includes(normalizedEmail)) {
+    if (portal === 'admin' && !ADMIN_EMAILS.includes(normalizedEmail)) {
       return res.status(401).json({
         success: false,
         message: 'Invalid email or password',
@@ -212,7 +212,7 @@ export const login = async (req, res) => {
       });
     }
 
-    if (user.role !== 'admin') {
+    if (portal === 'admin' && user.role !== 'admin') {
       return res.status(403).json({
         success: false,
         message: 'This account is not authorized for the admin portal',
